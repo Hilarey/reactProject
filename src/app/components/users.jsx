@@ -1,7 +1,7 @@
 import React from "react";
 import User from "./user";
 
-const Users = ({ users, ...rest }) => {
+const Users = (props) => {
   return (
     <>
       <table className="table">
@@ -17,7 +17,7 @@ const Users = ({ users, ...rest }) => {
           </tr>
         </thead>
         <tbody>
-          <User {...rest} />
+          <User {...props} />
         </tbody>
       </table>
     </>

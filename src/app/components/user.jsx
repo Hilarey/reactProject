@@ -2,10 +2,10 @@ import React from "react";
 import BookMark from "./bookmark";
 import Qualitie from "./qualitie";
 
-const User = ({ onDelete, ...rest }) => {
+const User = ({ onDelete, users, onTooggleBookMark }) => {
   return (
     <>
-      {Object.values(rest).map(
+      {users.map(
         ({
           _id,
           name,
@@ -24,7 +24,12 @@ const User = ({ onDelete, ...rest }) => {
             <td>{completedMeetings}</td>
             <td>{rate} /5</td>
             <td>
-              <BookMark status={bookmark} {...rest} />
+              <BookMark
+                status={bookmark}
+                users={users}
+                id={_id}
+                onTooggleBookMark={onTooggleBookMark}
+              />
             </td>
             <td>
               <button onClick={() => onDelete(_id)} className="btn btn-danger">
