@@ -13,20 +13,13 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
         }
     };
 
-    const handleFill = (item) => {
-        if (
-            selectedSort.order === "asc" &&
-            selectedSort.path === item &&
-            item !== undefined
-        ) {
-            return "bi bi-caret-down-fill";
-        }
-        if (
-            selectedSort.order === "desc" &&
-            selectedSort.path === item &&
-            item !== undefined
-        ) {
-            return "bi bi-caret-up-fill";
+    const renderSortArrow = (selectedSort, currentPath) => {
+        if (selectedSort.path === currentPath) {
+            if (selectedSort.order === "asc") {
+                return <i className="bi bi-caret-down-fill"></i>;
+            } else {
+                return <i className="bi bi-caret-up-fill"></i>;
+            }
         }
     };
 
@@ -44,10 +37,8 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                         {...{ role: columns[column].path && "button" }}
                         scope="col"
                     >
-                        {columns[column].name}
-                        <span
-                            className={handleFill(columns[column].path)}
-                        ></span>
+                        {columns[column].name}{" "}
+                        {renderSortArrow(selectedSort, columns[column].path)}
                     </th>
                 ))}
             </tr>
