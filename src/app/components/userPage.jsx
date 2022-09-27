@@ -1,43 +1,36 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import api from "../api";
+import QualitiesList from "./qualitiesList";
+import { useHistory } from "react-router-dom";
 
-const UserPage = ({ user }) => {
+const UserPage = ({ userId }) => {
     const history = useHistory();
-    const handleSave = () => {
+    const [user, setUser] = useState();
+    useEffect(() => {
+        api.users.default.getById(userId).then((data) => setUser(data));
+    });
+    const handleClick = () => {
         history.push("/users");
     };
-    return (
-        <>
-            {console.log("user._id >> ", user._id)}
-            {[user].map((user) => (
-                <div key={user._id}>
-                    <h1>{user.name}</h1>
-                    <h2>Профессия: {user.profession.name}</h2>
-                    <h5>
-                        {user.qualities.map(({ name, color, _id }) => (
-                            <span key={_id} className={"badge m-1 bg-" + color}>
-                                {name}
-                            </span>
-                        ))}
-                    </h5>
-                    <h4>completedMeetings: {user.completedMeetings}</h4>
-                    <h4>Rate: {user.rate}</h4>
-                    <button
-                        onClick={() => {
-                            handleSave();
-                        }}
-                    >
-                        Все пользователи
-                    </button>
-                </div>
-            ))}
-        </>
-    );
+    if (user) {
+        return (
+            <div>
+                <h1> {user.name}</h1>
+                <h2>Профессия: {user.profession.name}</h2>
+                <QualitiesList qualities={user.qualities} />
+                <p>completedMeetings: {user.completedMeetings}</p>
+                <h2>Rate: {user.rate}</h2>
+                <button onClick={handleClick}> Все Пользователи</button>
+            </div>
+        );
+    } else {
+        return <h1>Loading</h1>;
+    }
 };
 
 UserPage.propTypes = {
-    user: PropTypes.object
+    userId: PropTypes.string.isRequired
 };
 
 export default UserPage;

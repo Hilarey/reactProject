@@ -1,21 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import BookMark from "./bookmark";
 import QualitiesList from "./qualitiesList";
 import Table from "./table";
-import UsersList from "./usersList";
+import { Link } from "react-router-dom";
 
-const UsersTable = ({
+const UserTable = ({
     users,
     onSort,
     selectedSort,
     onToggleBookMark,
-    onDelete
+    onDelete,
+    ...rest
 }) => {
     const columns = {
         name: {
+            path: "name",
             name: "Имя",
-            component: (user) => <UsersList users={user} />
+            component: (user) => (
+                <Link to={`/users/${user._id}`}>{user.name}</Link>
+            )
         },
         qualities: {
             name: "Качества",
@@ -58,7 +63,7 @@ const UsersTable = ({
     );
 };
 
-UsersTable.propTypes = {
+UserTable.propTypes = {
     users: PropTypes.array.isRequired,
     onSort: PropTypes.func.isRequired,
     selectedSort: PropTypes.object.isRequired,
@@ -66,4 +71,4 @@ UsersTable.propTypes = {
     onDelete: PropTypes.func.isRequired
 };
 
-export default UsersTable;
+export default UserTable;
