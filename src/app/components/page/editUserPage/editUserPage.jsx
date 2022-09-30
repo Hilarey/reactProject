@@ -14,8 +14,18 @@ const EditUserPage = () => {
     const [qualities, setQualities] = useState([]);
 
     useEffect(() => {
-        api.users.getById(userId).then((data) => JSON.stringify(setData(data)));
+        api.users.getById(userId).then((data) =>
+            setData({
+                ...data,
+                qualities: data.qualities.map((quality) => ({
+                    label: quality.name,
+                    value: quality._id
+                })),
+                profession: data.profession._id
+            })
+        );
     }, []);
+
     useEffect(() => {
         api.professions.fetchAll().then((data) => {
             const professionsList = Object.keys(data).map((professionName) => ({
@@ -78,7 +88,6 @@ const EditUserPage = () => {
             })
             .then(history.push(`/users/${data._id}`));
     };
-
     return (
         <form className="w-25 m-auto" onSubmit={handleSubmit}>
             <TextField
