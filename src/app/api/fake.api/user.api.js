@@ -183,7 +183,6 @@ const update = (id, data) =>
         users[userIndex] = { ...users[userIndex], ...data };
         localStorage.setItem("users", JSON.stringify(users));
         resolve(users[userIndex]);
-        console.log("done :>> ");
     });
 
 const getById = (id) =>
